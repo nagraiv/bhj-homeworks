@@ -1,9 +1,12 @@
 (function() {
     class CountDownClock {
         constructor(timerString) {
-            [ this.hours, this.minutes, this.seconds ] = timerString.split(':').map(el => parseInt(el));
+            [this.hours, this.minutes, this.seconds] = timerString.split(':').map(el => parseInt(el));
             if (Number.isNaN(this.hours + this.minutes + this.seconds)) {
                 throw new Error('Недопустимый формат таймера. Ожидается строка "чч:мм:сс".');
+            }
+            if (this.seconds < 0 || this.minutes < 0 || this.hours < 0) {
+                throw new Error('Отрицательное значение таймера недопустимо.');
             }
         }
 
@@ -12,7 +15,7 @@
                 return;
             }
             if (this.seconds < 0 || this.minutes < 0 || this.hours < 0) {
-                throw new Error('Отрицательное значение таймера недопустимо');
+                throw new Error('Отрицательное значение таймера недопустимо.');
             } else {
                 let totalSeconds = (this.hours * 60 + this.minutes) * 60 + this.seconds;
                 totalSeconds -= 1;
@@ -36,19 +39,25 @@
 
     const linkEl = document.getElementById("link");
     const timerEl = document.getElementById("timer");
-    const clock = new CountDownClock(timerEl.textContent);
+    let clock;
+    let intervalID;
+    try {
+        clock = new CountDownClock(timerEl.textContent);
+        intervalID = setInterval(() => {
+            clock.countDown();
+            timerEl.textContent = clock.showTime();
+            if (clock.timeIsUp()) {
+                clearInterval(intervalID);
+                setTimeout(() => {
+                    linkEl.parentNode.classList.remove('none');
+                    linkEl.children[0].click();
+                });
+            }
+        }, 1000);
+    } catch (e) {
+        clearInterval(intervalID);
+        alert(e.message);
+    }
 
-    const intervalID = setInterval(() => {
-        clock.countDown();
-        timerEl.textContent = clock.showTime();
-        if (clock.timeIsUp()) {
-            clearInterval(intervalID);
-            // window.location = 'kitten.jpg';
-            setTimeout(() => {
-                // alert('Вы победили в конкурсе!');
-                linkEl.parentNode.classList.remove('none');
-                linkEl.children[0].click();
-            });
-        }
-    }, 1000);
+
 })();
