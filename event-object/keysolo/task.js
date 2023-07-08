@@ -4,27 +4,26 @@ class Game {
     this.wordElement = container.querySelector('.word');
     this.winsElement = container.querySelector('.status__wins');
     this.lossElement = container.querySelector('.status__loss');
+    this.timerElement = document.querySelector('#timer');
 
     this.reset();
-
     this.registerEvents();
   }
 
   reset() {
     this.setNewWord();
-    this.winsElement.textContent = 0;
-    this.lossElement.textContent = 0;
+    this.winsElement.textContent = '0';
+    this.lossElement.textContent = '0';
   }
 
   registerEvents() {
-    /*
-      TODO:
-      Написать обработчик события, который откликается
-      на каждый введённый символ.
-      В случае правильного ввода слова вызываем this.success()
-      При неправильном вводе символа - this.fail();
-      DOM-элемент текущего символа находится в свойстве this.currentSymbol.
-     */
+    window.addEventListener('keypress', (ev) => {
+      if (ev.key.toLowerCase() === this.currentSymbol.textContent.toLowerCase()) {
+        this.success()
+      } else {
+        this.fail();
+      }
+    });
   }
 
   success() {
@@ -38,41 +37,65 @@ class Game {
     }
 
     if (++this.winsElement.textContent === 10) {
-      alert('Победа!');
-      this.reset();
+      setTimeout(() => {
+        alert('Победа!');
+        this.reset();
+      });
     }
     this.setNewWord();
   }
 
   fail() {
     if (++this.lossElement.textContent === 5) {
-      alert('Вы проиграли!');
-      this.reset();
+      setTimeout(() => {
+        alert('Вы проиграли!');
+        this.reset();
+      });
     }
     this.setNewWord();
   }
 
   setNewWord() {
+    clearInterval(this.intervalID);
     const word = this.getWord();
+
+    this.timer = this.wordLength + 1;
+    this.timerElement.textContent = this.timer.toString();
+    this.intervalID = setInterval(() => {
+        this.timer -= 1;
+        this.timerElement.textContent = this.timer.toString();
+        if (this.timer <= 0) {
+            this.fail();
+        }
+    }, 1000);
 
     this.renderWord(word);
   }
 
   getWord() {
     const words = [
-        'bob',
+        'world',
         'awesome',
-        'netology',
+        'Netology',
         'hello',
         'kitty',
         'rock',
-        'youtube',
+        'Yandex',
         'popcorn',
         'cinema',
-        'love',
-        'javascript'
+        'loves',
+        'javascript',
+        'Аргентина',
+        'манит',
+        'негра',
+        'любит',
+        'эскимо',
+        'собака',
+        'друг',
+        'everyone'
       ],
       index = Math.floor(Math.random() * words.length);
+    this.wordLength = words[index].length;
 
     return words[index];
   }
