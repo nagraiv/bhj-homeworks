@@ -2,16 +2,23 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 10px 0;
+  padding: 0;
   background-color: #f3f4f7;
 }
 
 .tab {
+  padding: 10px 40px;
+  border: 1px solid #f3f4f7;
   cursor: pointer;
 }
 
 .tab_active {
   color: blue;
+  background-color: #f6f8f9;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .tab__content {
