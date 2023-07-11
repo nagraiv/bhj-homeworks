@@ -1,3 +1,4 @@
+// следим за скролом через обработчик, используем задерживающий декоратор
 // (() => {
 //     const revealList = [...document.querySelectorAll('.reveal')];
 //
@@ -20,9 +21,7 @@
 //
 //     function onScroll() {
 //         revealList.forEach((node) => {
-//             // console.log(node.getBoundingClientRect());
-//             let top = node.getBoundingClientRect().top;
-//             let bottom = node.getBoundingClientRect().bottom;
+//             let { top, bottom } = node.getBoundingClientRect();
 //             if (top < window.innerHeight) {
 //                 node.classList.add('reveal_active');
 //             }
@@ -33,6 +32,7 @@
 //     }
 // })();
 
+// попадание элемента в область видимости обнаруживает IntersectionObserver
 (() => {
     const revealList = [...document.querySelectorAll('.reveal')];
 
