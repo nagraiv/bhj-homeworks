@@ -42,7 +42,7 @@
 (() => {
     const rotateList = [...document.querySelector('.rotator').querySelectorAll('.rotator__case')];
     let currentIndex = 0;
-    rotateList[currentIndex].style.color = rotateList[currentIndex].getAttribute('data-color');
+    rotateList[currentIndex].style.color = rotateList[currentIndex].dataset.color;
 
     const sleep = delay => new Promise(resolve => setTimeout(resolve, delay));
     function showNextCase() {
@@ -52,11 +52,11 @@
             currentIndex = 0;
         }
         rotateList[currentIndex].classList.add('rotator__case_active');
-        rotateList[currentIndex].style.color = rotateList[currentIndex].getAttribute('data-color');
+        rotateList[currentIndex].style.color = rotateList[currentIndex].dataset.color;
     }
     async function iter() {
         while (true) {
-            await sleep(+rotateList[currentIndex].getAttribute('data-speed'));
+            await sleep(+rotateList[currentIndex].dataset.speed);
             showNextCase();
         }
     }
