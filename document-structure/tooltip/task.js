@@ -2,8 +2,7 @@
     const hasTooltipList = [...document.querySelectorAll('.has-tooltip')];
     const tooltipElement = document.createElement('div');
     tooltipElement.classList.add('tooltip');
-    tooltipElement.style.top = '0';
-    tooltipElement.style.left = '0';
+
     hasTooltipList.forEach(node => {
         node.addEventListener('click', (e) => {
             e.preventDefault();
@@ -15,15 +14,28 @@
                 node.parentNode.insertBefore(tooltipElement, node.nextSibling);
                 tooltipElement.classList.add('tooltip_active');
             }
-            const {top, left, right, bottom} = node.getBoundingClientRect();
+            const { top, left } = node.getBoundingClientRect();
             tooltipElement.style.position = 'absolute';
-            node.parentNode.style.position = 'relative';
-            // tooltipElement.style.top = top + 'px';
-            // tooltipElement.style.left = left + 'px';
-            // tooltipElement.style.right = right + 'px';
-            // tooltipElement.style.bottom = bottom + 'px';
-            console.log(top, left, right, bottom);
-            console.log(node.dataset.position);
+            if (node.dataset.position === 'top') {
+                const { height } = tooltipElement.getBoundingClientRect();
+                tooltipElement.style.top = top - height + window.scrollY + 'px';
+                tooltipElement.style.left = left + 'px';
+            }
+            if (node.dataset.position === 'right') {
+                const { width } = node.getBoundingClientRect();
+                tooltipElement.style.top = top + window.scrollY + 'px';
+                tooltipElement.style.left = left + width + 'px';
+            }
+            if (node.dataset.position === 'bottom') {
+                const { height } = node.getBoundingClientRect();
+                tooltipElement.style.top = top + height + window.scrollY + 'px';
+                tooltipElement.style.left = left + 'px';
+            }
+            if (node.dataset.position === 'left') {
+                const { width } = tooltipElement.getBoundingClientRect();
+                tooltipElement.style.top = top + window.scrollY + 'px';
+                tooltipElement.style.left = left - width + 'px';
+            }
         });
     })
 })();
