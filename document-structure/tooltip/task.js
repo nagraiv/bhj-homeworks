@@ -16,25 +16,30 @@
             }
             const { top, left } = node.getBoundingClientRect();
             tooltipElement.style.position = 'absolute';
-            if (node.dataset.position === 'top') {
-                const { height } = tooltipElement.getBoundingClientRect();
-                tooltipElement.style.top = top - height + window.scrollY + 'px';
-                tooltipElement.style.left = left + 'px';
-            }
-            if (node.dataset.position === 'right') {
-                const { width } = node.getBoundingClientRect();
-                tooltipElement.style.top = top + window.scrollY + 'px';
-                tooltipElement.style.left = left + width + 'px';
-            }
-            if (node.dataset.position === 'bottom') {
-                const { height } = node.getBoundingClientRect();
-                tooltipElement.style.top = top + height + window.scrollY + 'px';
-                tooltipElement.style.left = left + 'px';
-            }
-            if (node.dataset.position === 'left') {
-                const { width } = tooltipElement.getBoundingClientRect();
-                tooltipElement.style.top = top + window.scrollY + 'px';
-                tooltipElement.style.left = left - width + 'px';
+            switch (node.dataset.position) {
+                case 'top': {
+                    const { height } = tooltipElement.getBoundingClientRect();
+                    tooltipElement.style.top = top - height + window.scrollY + 'px';
+                    tooltipElement.style.left = left + 'px';
+                    break;
+                }
+                case 'right': {
+                    const { width } = node.getBoundingClientRect();
+                    tooltipElement.style.top = top + window.scrollY + 'px';
+                    tooltipElement.style.left = left + width + 'px';
+                    break;
+                }
+                case 'bottom': {
+                    const { height } = node.getBoundingClientRect();
+                    tooltipElement.style.top = top + height + window.scrollY + 'px';
+                    tooltipElement.style.left = left + 'px';
+                    break;
+                }
+                case 'left': {
+                    const { width } = tooltipElement.getBoundingClientRect();
+                    tooltipElement.style.top = top + window.scrollY + 'px';
+                    tooltipElement.style.left = left - width + 'px';
+                }
             }
         });
     })
