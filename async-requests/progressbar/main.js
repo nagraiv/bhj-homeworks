@@ -3,4 +3,5 @@ document.getElementById("file").onchange = function() {
   let fileName = this.value.split("\\");
   fileName = fileName[fileName.length - 1];
   fileDesc.textContent = fileName;
+  document.getElementById('progress').value = '0.0';
 };
