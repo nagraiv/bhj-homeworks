@@ -3,7 +3,8 @@
     const inputs = [...document.querySelectorAll('.interest__check')];
     inputs.forEach((node) => {
         node.addEventListener('change', (e) => {
-            e.stopPropagation();
+            // console.log('node: ', node);
+            // e.stopPropagation();
             // все вложенные списки принимают новое состояние верхнеуровневого checkbox
             recursiveStateInheritance(node);
             // если на текущем уровне все checkbox в одном состоянии,
@@ -21,7 +22,7 @@
             childList.forEach(item => {
                 const checkEl = item.querySelector('.interest__check');
                 checkEl.checked = element.checked;
-                // checkEl.indeterminate = false;
+                checkEl.indeterminate = false;
                 recursiveStateInheritance(checkEl);
             });
         } else {
@@ -50,7 +51,7 @@
             } else {
                 parentCheck.indeterminate = true;
             }
-            recursiveParentStateChange(parentCheck.parentNode);
+            recursiveParentStateChange(parentCheck);
         }
     }
 
